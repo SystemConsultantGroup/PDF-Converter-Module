@@ -4,6 +4,7 @@ import { Client } from 'minio';
 @Injectable()
 export class MinioService implements OnModuleInit {
   private minioClient: Client;
+  private bucketName = process.env.MINIO_BUCKET_NAME;
 
   onModuleInit() {
     this.minioClient = new Client({
@@ -15,18 +16,21 @@ export class MinioService implements OnModuleInit {
     });
   }
 
-  async uploadPdf(
-    bucketName: string,
-    fileName: string,
-    pdfBuffer: Buffer,
-  ): Promise<void> {
-    await this.minioClient.putObject(bucketName, fileName, pdfBuffer);
-    console.log(`PDF uploaded to MinIO: ${bucketName}/${fileName}`);
-  }
-
-  async uploadFile(key: string, file: Buffer) {
+  async uploadPdf(fileName: string, pdfBuffer: Buffer, headers): Promise<void> {
+    const metaData = {
+      'Content-Type': 'application/pdf',
+      createdAt: new Date().toUTCString(),
+      originalName: encodeURI(headers.originalName),
+    };
     try {
-      await this.minioClient.putObject('ice-grad-pdf', key, file);
+      await this.minioClient.putObject(
+        this.bucketName,
+        fileName,
+        pdfBuffer,
+        Buffer.byteLength(pdfBuffer),
+        metaData,
+      );
+      console.log(`PDF uploaded to MinIO: ${this.bucketName}/${fileName}`);
     } catch (err) {
       throw new BadRequestException(err.message);
     }
