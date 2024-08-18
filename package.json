@@ -21,9 +21,13 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "dotenv": "^16.4.5",
     "kafkajs": "^2.2.4",
+    "minio": "^8.0.1",
+    "nestjs-minio-client": "^2.2.0",
     "puppeteer": "^23.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
