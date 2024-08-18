@@ -2,7 +2,6 @@ import {
   Injectable,
   OnModuleInit,
   OnModuleDestroy,
-  BadGatewayException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Kafka, EachMessagePayload, Consumer } from 'kafkajs';
