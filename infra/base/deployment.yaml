@@ -19,6 +19,12 @@ spec:
           ports:
             - containerPort: 4000
           envFrom:
-            - secretRef: 
-                name: pdf-secret
-
+          - secretRef: 
+              name: pdf-secret
+          resources:
+            requests:
+              cpu: 2
+              memory: 4Gi
+            limits: 
+              cpu: 2
+              memory: 4Gi
