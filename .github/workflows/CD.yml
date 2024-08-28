@@ -70,7 +70,7 @@ jobs:
       - name: Config Repo 변경사항 푸시
         run: |
           cd PDF-Converter-Module
-          git config --global user.email "jcy030896@naver.com""
+          git config --global user.email "jcy030896@naver.com"
           git config --global user.name "chanyeong"
           git commit -am "Update image tag"
           git push -u origin main
