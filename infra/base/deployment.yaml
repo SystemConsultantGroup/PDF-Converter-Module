@@ -18,3 +18,7 @@ spec:
           name: pdf
           ports:
             - containerPort: 4000
+          envFrom:
+            - secretRef: 
+                name: pdf-secret
+
