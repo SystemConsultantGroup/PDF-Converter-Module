@@ -51,6 +51,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false
+      - name: --------------- Config Repo ---------------
+        run: echo "[Config Repo]"
+      - name: Config Repo 불러오기
+        uses: actions/checkout@v4
+        with:
+          repository: SystemConsultantGroup/PDF-Converter-Module
+          ref: main
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: PDF-Converter-Module
       - name: Kustomize 준비
         uses: imranismail/setup-kustomize@v2.0.0
       - name: Config Repo 이미지 값 업데이트 (Kustomize)
