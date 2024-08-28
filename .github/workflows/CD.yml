@@ -1,8 +1,10 @@
 name: k8s CD
 
 on:
-  push:
-    branches: ["main"]
+  # push:
+    # branches: ["main"]
+  workflow_dispatch:
+
 env:
   dockerimage_tag: ${{ github.sha }}
   dockerimage_name: jcy0308/pdf-module
