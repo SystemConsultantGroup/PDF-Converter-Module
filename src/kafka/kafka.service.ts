@@ -33,10 +33,10 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
     this.consumer = this.kafka.consumer({
       groupId: process.env.CONSUMER_GROUP,
     });
-    this.consumer.connect();
   }
 
   async onApplicationBootstrap() {
+    await this.consumer.connect();
     await this.consumer.subscribe({ topic: this.topic, fromBeginning: false });
     await this.consumer
       .run({
