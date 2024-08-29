@@ -3,7 +3,6 @@ import {
   OnModuleInit,
   OnModuleDestroy,
   InternalServerErrorException,
-  OnApplicationBootstrap,
 } from '@nestjs/common';
 import { Kafka, EachMessagePayload, Consumer } from 'kafkajs';
 import { PuppeteerService } from '../puppeteer/puppeteer.service';
@@ -43,38 +42,38 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
     console.log('connected');
     await this.consumer.subscribe({ topic: this.topic, fromBeginning: false });
     console.log('subsribed');
-    await this.consumer
-      .run({
-        autoCommit: false,
-        eachMessage: async (payload: EachMessagePayload) => {
-          const { topic, partition, message } = payload;
-          console.info(
-            `partition: ${partition}, messageOffset: ${message.offset}`,
-          );
-          const uuid = message.key.toString();
-          const htmlContent = message.value.toString();
-          try {
-            const pdf = await this.puppeteerService.generatePDF(htmlContent);
-            await this.minioService.uploadPdf(
-              uuid,
-              Buffer.from(pdf),
-              message.headers,
-            );
-            // 성공 시 커밋
-            // throw new BadGatewayException('일부러 에러 발생');
-            await this.consumer.commitOffsets([
-              {
-                topic,
-                partition,
-                offset: (BigInt(message.offset) + BigInt(1)).toString(),
-              },
-            ]);
-          } catch (e) {
-            throw new InternalServerErrorException(`[consumer] ${e.message}`);
-          }
-        },
-      })
-      .catch((e) => console.error(`[example/consumer] ${e.message}`, e));
+    // await this.consumer
+    //   .run({
+    //     autoCommit: false,
+    //     eachMessage: async (payload: EachMessagePayload) => {
+    //       const { topic, partition, message } = payload;
+    //       console.info(
+    //         `partition: ${partition}, messageOffset: ${message.offset}`,
+    //       );
+    //       const uuid = message.key.toString();
+    //       const htmlContent = message.value.toString();
+    //       try {
+    //         const pdf = await this.puppeteerService.generatePDF(htmlContent);
+    //         await this.minioService.uploadPdf(
+    //           uuid,
+    //           Buffer.from(pdf),
+    //           message.headers,
+    //         );
+    //         // 성공 시 커밋
+    //         // throw new BadGatewayException('일부러 에러 발생');
+    //         await this.consumer.commitOffsets([
+    //           {
+    //             topic,
+    //             partition,
+    //             offset: (BigInt(message.offset) + BigInt(1)).toString(),
+    //           },
+    //         ]);
+    //       } catch (e) {
+    //         throw new InternalServerErrorException(`[consumer] ${e.message}`);
+    //       }
+    //     },
+    //   })
+    //   .catch((e) => console.error(`[example/consumer] ${e.message}`, e));
     console.log('consumer has started');
   }
 
