@@ -38,10 +38,10 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
   }
 
   async onModuleInit() {
-    await this.consumer.connect();
-    console.log('connected');
-    await this.consumer.subscribe({ topic: this.topic, fromBeginning: false });
-    console.log('subsribed');
+    // await this.consumer.connect();
+    // console.log('connected');
+    // await this.consumer.subscribe({ topic: this.topic, fromBeginning: false });
+    // console.log('subsribed');
     // await this.consumer
     //   .run({
     //     autoCommit: false,

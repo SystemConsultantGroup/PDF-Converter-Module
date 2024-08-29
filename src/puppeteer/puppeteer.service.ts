@@ -8,8 +8,8 @@ export class PuppeteerService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     this.browser = await puppeteer.launch({
+      headless: true,
       executablePath: '/usr/bin/chromium-browser',
-      protocolTimeout: 999_999,
       args: [
         '--no-sandbox',
         '--disable-dev-shm-usage',
