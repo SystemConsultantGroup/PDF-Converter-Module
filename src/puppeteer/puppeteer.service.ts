@@ -18,6 +18,7 @@ export class PuppeteerService implements OnModuleInit, OnModuleDestroy {
       ],
     });
     this.page = await this.browser.newPage();
+    console.log('browser initiated');
   }
 
   async onModuleDestroy() {
