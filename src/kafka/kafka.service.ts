@@ -18,23 +18,23 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
     private readonly puppeteerService: PuppeteerService,
     private readonly minioService: MinioService,
   ) {
-    this.kafka = new Kafka({
-      clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,
-      brokers: [
-        'kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local:9092',
-        'kafka-controller-1.kafka-controller-headless.kafka.svc.cluster.local:9092',
-        'kafka-controller-2.kafka-controller-headless.kafka.svc.cluster.local:9092',
-      ],
-      sasl: {
-        mechanism: 'scram-sha-256',
-        username: process.env.SASL_USER,
-        password: process.env.SASL_PASSWORD,
-      },
-    });
+    // this.kafka = new Kafka({
+    //   clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,
+    //   brokers: [
+    //     'kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local:9092',
+    //     'kafka-controller-1.kafka-controller-headless.kafka.svc.cluster.local:9092',
+    //     'kafka-controller-2.kafka-controller-headless.kafka.svc.cluster.local:9092',
+    //   ],
+    //   sasl: {
+    //     mechanism: 'scram-sha-256',
+    //     username: process.env.SASL_USER,
+    //     password: process.env.SASL_PASSWORD,
+    //   },
+    // });
 
-    this.consumer = this.kafka.consumer({
-      groupId: process.env.CONSUMER_GROUP,
-    });
+    // this.consumer = this.kafka.consumer({
+    //   groupId: process.env.CONSUMER_GROUP,
+    // });
   }
 
   async onModuleInit() {
