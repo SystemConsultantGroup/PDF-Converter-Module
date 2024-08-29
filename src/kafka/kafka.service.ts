@@ -21,7 +21,11 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
   ) {
     this.kafka = new Kafka({
       clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,
-      brokers: [process.env.KAFKA_CLIENT_BOOTSTRAP_SERVER],
+      brokers: [
+        'kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local:9092',
+        'kafka-controller-1.kafka-controller-headless.kafka.svc.cluster.local:9092',
+        'kafka-controller-2.kafka-controller-headless.kafka.svc.cluster.local:9092',
+      ],
       sasl: {
         // mechanism: `process.env.SASL_MECHANISM`,
         mechanism: 'scram-sha-256',
@@ -70,6 +74,7 @@ export class KafkaService implements OnApplicationBootstrap, OnModuleDestroy {
         },
       })
       .catch((e) => console.error(`[example/consumer] ${e.message}`, e));
+    console.log('consumer has started');
   }
 
   async onModuleDestroy() {
