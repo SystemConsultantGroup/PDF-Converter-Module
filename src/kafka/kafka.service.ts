@@ -21,6 +21,12 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
     this.kafka = new Kafka({
       clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,
       brokers: [process.env.KAFKA_CLIENT_BOOTSTRAP_SERVER],
+      sasl: {
+        // mechanism: `process.env.SASL_MECHANISM`,
+        mechanism: 'scram-sha-256',
+        username: process.env.SASL_USER,
+        password: process.env.SASL_PASSWORD,
+      },
     });
   }
 
