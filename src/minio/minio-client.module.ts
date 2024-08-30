@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { MinioService } from './minio.service';
+import { MinioClientService } from './minio-client.service';
 import { MinioModule } from 'nestjs-minio-client';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 @Global()
@@ -17,7 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
   ],
-  providers: [MinioService],
-  exports: [MinioService],
+  providers: [MinioClientService],
+  exports: [MinioClientService],
 })
 export class MinioClientModule {}

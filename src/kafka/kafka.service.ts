@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Kafka, EachMessagePayload, Consumer } from 'kafkajs';
 import { PuppeteerService } from '../puppeteer/puppeteer.service';
-import { MinioService } from '../minio/minio.service';
+import { MinioClientService } from '../minio/minio-client.service';
 
 @Injectable()
 export class KafkaService implements OnModuleInit, OnModuleDestroy {
@@ -16,7 +16,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     private readonly puppeteerService: PuppeteerService,
-    private readonly minioService: MinioService,
+    private readonly minioService: MinioClientService,
   ) {
     this.kafka = new Kafka({
       clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,

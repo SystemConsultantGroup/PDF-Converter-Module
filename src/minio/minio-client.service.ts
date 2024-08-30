@@ -1,19 +1,18 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
-import { Client } from 'minio';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { MinioService } from 'nestjs-minio-client';
 
 @Injectable()
-export class MinioService implements OnModuleInit {
-  private minioClient: Client;
-  private bucketName = process.env.MINIO_BUCKET_NAME;
+export class MinioClientService {
+  private readonly minioClient;
+  private readonly bucketName;
 
-  onModuleInit() {
-    this.minioClient = new Client({
-      endPoint: process.env.MINIO_END_POINT,
-      port: parseInt(process.env.MINIO_PORT),
-      useSSL: true,
-      accessKey: process.env.MINIO_ACCESS_KEY,
-      secretKey: process.env.MINIO_PRIVATE_KEY,
-    });
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly minioService: MinioService,
+  ) {
+    this.minioClient = this.minioService.client;
+    this.bucketName = this.configService.get('MINIO_BUCKET_NAME');
   }
 
   async uploadPdf(fileName: string, pdfBuffer: Buffer, headers): Promise<void> {
