@@ -19,8 +19,6 @@ export class PuppeteerService implements OnModuleInit, OnModuleDestroy {
       ],
     });
     console.log('browser launched');
-    this.page = await this.browser.newPage();
-    console.log('puppeteer initiated');
   }
 
   async onModuleDestroy() {
@@ -36,7 +34,12 @@ export class PuppeteerService implements OnModuleInit, OnModuleDestroy {
       preferCSSPageSize: false,
       printBackground: true,
     };
+    this.page = await this.browser.newPage();
+
     await this.page.setContent(htmlContent);
-    return await this.page.pdf(options);
+    const pdf = await this.page.pdf(options);
+    await this.page.close();
+
+    return pdf;
   }
 }
