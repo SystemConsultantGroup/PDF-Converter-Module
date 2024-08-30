@@ -15,7 +15,7 @@ export class MinioClientService {
     this.bucketName = this.configService.get('MINIO_BUCKET_NAME');
   }
 
-  async uploadPdf(fileName: string, pdfBuffer: Buffer, headers): Promise<void> {
+  async uploadPdf(fileName, pdfBuffer: Buffer, headers): Promise<void> {
     const metaData = {
       'Content-Type': 'application/pdf',
       createdAt: new Date().toUTCString(),

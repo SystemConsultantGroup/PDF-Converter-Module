@@ -36,7 +36,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
   async onModuleInit() {
     await this.consumer.connect();
     console.log('connected');
-    await this.consumer.subscribe({ topic: this.topic, fromBeginning: false });
+    await this.consumer.subscribe({ topic: this.topic, fromBeginning: true });
     console.log('subsribed');
     await this.consumer
       .run({
@@ -46,27 +46,22 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
           console.info(
             `partition: ${partition}, messageOffset: ${message.offset}`,
           );
-          const uuid = message.key.toString();
           const htmlContent = message.value.toString();
-          try {
-            const pdf = await this.puppeteerService.generatePDF(htmlContent);
-            await this.minioService.uploadPdf(
-              uuid,
-              Buffer.from(pdf),
-              message.headers,
-            );
-            // 성공 시 커밋
-            // throw new BadGatewayException('일부러 에러 발생');
-            await this.consumer.commitOffsets([
-              {
-                topic,
-                partition,
-                offset: (BigInt(message.offset) + BigInt(1)).toString(),
-              },
-            ]);
-          } catch (e) {
-            throw new InternalServerErrorException(`[consumer] ${e.message}`);
-          }
+          const pdf = await this.puppeteerService.generatePDF(htmlContent);
+          await this.minioService.uploadPdf(
+            message.headers.uuid,
+            Buffer.from(pdf),
+            message.headers,
+          );
+          // 성공 시 커밋
+          // throw new BadGatewayException('일부러 에러 발생');
+          await this.consumer.commitOffsets([
+            {
+              topic,
+              partition,
+              offset: (BigInt(message.offset) + BigInt(1)).toString(),
+            },
+          ]);
         },
       })
       .catch((e) => console.error(`[example/consumer] ${e.message}`, e));
