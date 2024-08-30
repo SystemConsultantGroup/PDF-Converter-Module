@@ -7,6 +7,7 @@ export class PuppeteerService implements OnModuleInit, OnModuleDestroy {
   private page: puppeteer.Page;
 
   async onModuleInit() {
+    console.log('module initiated');
     this.browser = await puppeteer.launch({
       headless: true,
       executablePath: '/usr/bin/chromium-browser',
@@ -17,8 +18,9 @@ export class PuppeteerService implements OnModuleInit, OnModuleDestroy {
         '--enable-local-file-accesses',
       ],
     });
+    console.log('browser launched');
     this.page = await this.browser.newPage();
-    console.log('browser initiated');
+    console.log('puppeteer initiated');
   }
 
   async onModuleDestroy() {

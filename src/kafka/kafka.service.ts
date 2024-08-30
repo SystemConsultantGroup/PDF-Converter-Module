@@ -15,8 +15,8 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
   private topic = process.env.TOPIC;
 
   constructor(
-    private readonly puppeteerService: PuppeteerService,
-    private readonly minioService: MinioService,
+  //   private readonly puppeteerService: PuppeteerService,
+  //   private readonly minioService: MinioService,
   ) {
     // this.kafka = new Kafka({
     //   clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,
