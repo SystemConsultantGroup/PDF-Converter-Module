@@ -20,11 +20,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
   ) {
     this.kafka = new Kafka({
       clientId: `${process.env.CONSUMER_GROUP}+${process.pid}`,
-      brokers: [
-        'kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local:9092',
-        'kafka-controller-1.kafka-controller-headless.kafka.svc.cluster.local:9092',
-        'kafka-controller-2.kafka-controller-headless.kafka.svc.cluster.local:9092',
-      ],
+      brokers: ['kafka.kafka.svc.cluster.local:9092'],
       sasl: {
         mechanism: 'scram-sha-256',
         username: process.env.SASL_USER,
