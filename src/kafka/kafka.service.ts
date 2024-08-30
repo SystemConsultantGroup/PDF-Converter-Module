@@ -50,7 +50,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
           const pdf = await this.puppeteerService.generatePDF(htmlContent);
           console.log(message.headers.uuid, typeof message.headers.uuid);
           await this.minioService.uploadPdf(
-            message.headers.uuid,
+            message.headers.uuid.toString(),
             Buffer.from(pdf),
             message.headers,
           );
