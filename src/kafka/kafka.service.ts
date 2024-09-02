@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  OnModuleInit,
-  OnModuleDestroy,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { Kafka, EachMessagePayload, Consumer } from 'kafkajs';
 import { PuppeteerService } from '../puppeteer/puppeteer.service';
 import { MinioClientService } from '../minio/minio-client.service';
@@ -42,6 +37,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
       .run({
         autoCommit: false,
         eachMessage: async (payload: EachMessagePayload) => {
+          const start = Date.now();
           const { topic, partition, message } = payload;
           console.info(
             `partition: ${partition}, messageOffset: ${message.offset}`,
@@ -63,6 +59,8 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
               offset: (BigInt(message.offset) + BigInt(1)).toString(),
             },
           ]);
+          const end = Date.now();
+          console.info(`it took ${end - start} ms to upload!`);
         },
       })
       .catch((e) => console.error(`[example/consumer] ${e.message}`, e));
