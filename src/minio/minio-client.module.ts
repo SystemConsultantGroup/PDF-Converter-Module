@@ -14,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         useSSL: true,
         accessKey: configService.get('MINIO_ACCESS_KEY'),
         secretKey: configService.get('MINIO_SECRET_KEY'),
+        region: configService.get('MINIO_REGION'),
       }),
     }),
   ],
