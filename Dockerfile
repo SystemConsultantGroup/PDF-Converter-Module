@@ -1,5 +1,8 @@
 FROM node:18-alpine
 
+ARG CACHEBUST
+RUN echo "cache bust: ${CACHEBUST}"
+
 WORKDIR /app
 
 COPY nest-cli.json ./

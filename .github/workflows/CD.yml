@@ -53,6 +53,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false
+          build-args: |
+            CACHEBUST=${{ github.run_id }}-${{ github.run_attempt }}
+          
       - name: --------------- Config Repo ---------------
         run: echo "[Config Repo]"
       - name: Config Repo 불러오기
